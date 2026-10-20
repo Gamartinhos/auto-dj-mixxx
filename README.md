@@ -27,8 +27,8 @@ Sistema inteligente de **Auto DJ** integrado ao [Mixxx](https://mixxx.org/), uti
 Clone o repositório e crie o ambiente virtual:
 
 ```bash
-git clone https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git
-cd auto-dj
+git clone https://github.com/Gamartinhos/auto-dj-mixxx.git
+cd auto-dj-mixxx
 
 python -m venv .venv
 # No Windows PowerShell:
