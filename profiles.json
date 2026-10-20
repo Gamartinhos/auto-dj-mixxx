@@ -1,0 +1,76 @@
+{
+  "_comment": "Perfis V2 probabilísticos e dinâmicos.",
+  "default": "vintage_culture",
+  "profiles": {
+    "vintage_culture": {
+      "label": "Vintage Culture",
+      "description": "Melodic / progressive house. Blends longos e suaves, troca de graves.",
+      "genres": ["melodic house", "progressive house", "tech house"],
+      "bpm_range": [118, 128],
+      "max_bpm_jump": 4,
+      "harmonic_mixing": true,
+      "energy_variance": 0.3,
+      "bass_swap_probability": 0.8,
+      "fx_build_up_probability": 0.4,
+      "mix_duration_seconds": [30, 90],
+      "energy": { "default": 60, "curve": "construcao gradual, picos emocionais com vocais" },
+      "ai_persona": "Você é um DJ de melodic/progressive house no estilo Vintage Culture: sets que contam uma história, transições longas e orgânicas."
+    },
+    "illusionize": {
+      "label": "Illusionize",
+      "description": "Bass house / Brazilian bass. Peso nos graves, drops fortes.",
+      "genres": ["bass house", "brazilian bass", "tech house"],
+      "bpm_range": [122, 130],
+      "max_bpm_jump": 5,
+      "harmonic_mixing": true,
+      "energy_variance": 0.2,
+      "bass_swap_probability": 0.9,
+      "fx_build_up_probability": 0.7,
+      "mix_duration_seconds": [15, 45],
+      "energy": { "default": 80, "curve": "alta energia constante, mantém o peso do grave entre faixas" },
+      "ai_persona": "Você é um DJ de bass house / brazilian bass no estilo Illusionize: preserva o peso do grave, energia sempre alta."
+    },
+    "warmup_lounge": {
+      "label": "Warm-up / Lounge",
+      "description": "Abertura de noite: deep house e downtempo.",
+      "genres": ["deep house", "downtempo", "lounge", "house"],
+      "bpm_range": [100, 120],
+      "max_bpm_jump": 3,
+      "harmonic_mixing": true,
+      "energy_variance": 0.1,
+      "bass_swap_probability": 0.1,
+      "fx_build_up_probability": 0.0,
+      "mix_duration_seconds": [45, 120],
+      "energy": { "default": 35, "curve": "baixa e estável, sobe devagar" },
+      "ai_persona": "Você é um DJ de abertura (warm-up): músicas acolhedoras, energia baixa a média, transições muito longas e suaves, sem sustos."
+    },
+    "peak_techno": {
+      "label": "Peak Time Techno",
+      "description": "Techno de pista cheia: BPM alto, mixagens hipnóticas.",
+      "genres": ["techno", "peak time techno", "hard techno"],
+      "bpm_range": [128, 140],
+      "max_bpm_jump": 3,
+      "harmonic_mixing": false,
+      "energy_variance": 0.1,
+      "bass_swap_probability": 0.3,
+      "fx_build_up_probability": 0.9,
+      "mix_duration_seconds": [20, 60],
+      "energy": { "default": 90, "curve": "intensa e hipnótica, quase sem respiro" },
+      "ai_persona": "Você é um DJ de techno peak time: BPM alto e constante, mixagens hipnóticas com filtros e EQ, energia máxima, poucas pausas."
+    },
+    "rock_mosh": {
+      "label": "Rock Mosh Pit",
+      "description": "Hard rock, Nu Metal, Thrash e Punk. Transições secas de alto impacto (hard cuts e swaps no breakdown) para manter a roda pegando fogo.",
+      "genres": ["rock", "hard rock", "heavy metal", "nu metal", "thrash metal", "metalcore", "punk rock", "grunge", "alternative rock"],
+      "bpm_range": [100, 185],
+      "max_bpm_jump": 25,
+      "harmonic_mixing": false,
+      "energy_variance": 0.15,
+      "bass_swap_probability": 0.35,
+      "fx_build_up_probability": 0.1,
+      "mix_duration_seconds": [4, 12],
+      "energy": { "default": 95, "curve": "adrenalina no talo, mosh constante, transição seca e impacto de bateria" },
+      "ai_persona": "Você é um DJ especialista em Rock Pesado, Nu Metal e Mosh Pit. Transições secas e diretas (hard cut ou swap rápido no breakdown), mantendo a adrenalina no talo sem embolar guitarras."
+    }
+  }
+}

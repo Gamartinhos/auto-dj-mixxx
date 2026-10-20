@@ -1,0 +1,166 @@
+{
+  "name": "Show Rock 1 Hora - Mosh Pit Especial",
+  "description": "Set de 1 hora com 17 faixas de Nu Metal, Hard Rock, Thrash e Punk focado em manter a roda de mosh no pico.",
+  "transitions": [
+    {
+      "from_artist": "System of a Down",
+      "from_title": "Chop Suey!",
+      "to_artist": "Rage Against the Machine",
+      "to_title": "Bulls on Parade",
+      "overlap_beats": 8,
+      "eq_style": "stutter_drop",
+      "filter_sweep": false,
+      "note": "Gracinha Morello: Gaguejo rítmico no final de Chop Suey e corte seco no cowbell/bateria de Bulls on Parade"
+    },
+    {
+      "from_artist": "Rage Against the Machine",
+      "from_title": "Bulls on Parade",
+      "to_artist": "Limp Bizkit",
+      "to_title": "Break Stuff",
+      "overlap_beats": 16,
+      "eq_style": "bass_swap",
+      "filter_sweep": false,
+      "note": "Troca rápida de bumbo na batida seca de Break Stuff mantendo o groove da pista"
+    },
+    {
+      "from_artist": "Limp Bizkit",
+      "from_title": "Break Stuff",
+      "to_artist": "Slipknot",
+      "to_title": "Duality",
+      "overlap_beats": 12,
+      "eq_style": "breakdown_swap",
+      "filter_sweep": false,
+      "note": "Breakdown Drop: Mantém o peso de Break Stuff até o último instante e explode no prato/percussão de Duality"
+    },
+    {
+      "from_artist": "Slipknot",
+      "from_title": "Duality",
+      "to_artist": "Linkin Park",
+      "to_title": "Faint",
+      "overlap_beats": 8,
+      "eq_style": "hard_cut",
+      "filter_sweep": false,
+      "note": "Corte seco e direto nos violinos/riff rápido de Faint"
+    },
+    {
+      "from_artist": "Linkin Park",
+      "from_title": "Faint",
+      "to_artist": "Papa Roach",
+      "to_title": "Last Resort",
+      "overlap_beats": 10,
+      "eq_style": "brake_cut",
+      "filter_sweep": false,
+      "note": "Vinyl Brake: Freada rápida no último grito do Chester e entrada crua no riff icônico de Last Resort"
+    },
+    {
+      "from_artist": "Papa Roach",
+      "from_title": "Last Resort",
+      "to_artist": "Deftones",
+      "to_title": "My Own Summer (Shove It)",
+      "overlap_beats": 16,
+      "eq_style": "breakdown_swap",
+      "filter_sweep": false,
+      "note": "Troca de grave no breakdown para o peso arrastado em Drop D de My Own Summer"
+    },
+    {
+      "from_artist": "Deftones",
+      "from_title": "My Own Summer (Shove It)",
+      "to_artist": "Drowning Pool",
+      "to_title": "Bodies",
+      "overlap_beats": 12,
+      "eq_style": "wash_out",
+      "filter_sweep": true,
+      "note": "Washout / Silêncio total: Filtro sobe e corta a zero para a contagem '1, nothing wrong with me...'"
+    },
+    {
+      "from_artist": "Drowning Pool",
+      "from_title": "Bodies",
+      "to_artist": "Disturbed",
+      "to_title": "Down with the Sickness",
+      "overlap_beats": 8,
+      "eq_style": "breakdown_swap",
+      "filter_sweep": false,
+      "note": "Breakdown Drop: Bate seco direto no 'OOH-WAH-AH-AH-AH' da intro de Down with the Sickness"
+    },
+    {
+      "from_artist": "Disturbed",
+      "from_title": "Down with the Sickness",
+      "to_artist": "Pantera",
+      "to_title": "Walk",
+      "overlap_beats": 8,
+      "eq_style": "hard_cut",
+      "filter_sweep": false,
+      "note": "Corte seco no primeiro acorde arrastado de Dimebag Darrell para abrir o Circle Pit"
+    },
+    {
+      "from_artist": "Pantera",
+      "from_title": "Walk",
+      "to_artist": "Sepultura",
+      "to_title": "Roots Bloody Roots",
+      "overlap_beats": 8,
+      "eq_style": "brake_cut",
+      "filter_sweep": false,
+      "note": "Brake rápido e explosão imediata no berro 'Roots, Bloody Roots!'"
+    },
+    {
+      "from_artist": "Sepultura",
+      "from_title": "Roots Bloody Roots",
+      "to_artist": "Metallica",
+      "to_title": "Master of Puppets",
+      "overlap_beats": 8,
+      "eq_style": "stutter_drop",
+      "filter_sweep": false,
+      "note": "Stutter / Gaguejo acelerando o bumbo antes de soltar a palhetada veloz de Master of Puppets"
+    },
+    {
+      "from_artist": "Metallica",
+      "from_title": "Master of Puppets",
+      "to_artist": "Avenged Sevenfold",
+      "to_title": "Hail to the King",
+      "overlap_beats": 16,
+      "eq_style": "wash_out",
+      "filter_sweep": true,
+      "note": "Washout abrindo espaço para a marcha cadenciada de arena com guitarras gêmeas de Hail to the King"
+    },
+    {
+      "from_artist": "Avenged Sevenfold",
+      "from_title": "Hail to the King",
+      "to_artist": "Bring Me The Horizon",
+      "to_title": "Can You Feel My Heart",
+      "overlap_beats": 12,
+      "eq_style": "breakdown_swap",
+      "filter_sweep": false,
+      "note": "Troca no drop do sintetizador com parede de som de metalcore moderno de Can You Feel My Heart"
+    },
+    {
+      "from_artist": "Bring Me The Horizon",
+      "from_title": "Can You Feel My Heart",
+      "to_artist": "Foo Fighters",
+      "to_title": "All My Life",
+      "overlap_beats": 8,
+      "eq_style": "hard_cut",
+      "filter_sweep": false,
+      "note": "Corte instantâneo para o ataque rápido de bateria de Dave Grohl em All My Life"
+    },
+    {
+      "from_artist": "Foo Fighters",
+      "from_title": "All My Life",
+      "to_artist": "The Offspring",
+      "to_title": "The Kids Aren't Alright",
+      "overlap_beats": 8,
+      "eq_style": "brake_cut",
+      "filter_sweep": false,
+      "note": "Freada rápida de vinil e disparo no skate punk em alta velocidade de The Kids Aren't Alright"
+    },
+    {
+      "from_artist": "The Offspring",
+      "from_title": "The Kids Aren't Alright",
+      "to_artist": "Rage Against the Machine",
+      "to_title": "Killing in the Name",
+      "overlap_beats": 12,
+      "eq_style": "stutter_drop",
+      "filter_sweep": false,
+      "note": "Gracinha Morello: Stutter rítmico no prato de condução e drop no baixo icônico de Killing in the Name para a apoteose final"
+    }
+  ]
+}

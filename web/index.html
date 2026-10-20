@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b12">
+  <meta name="description" content="Painel mobile do Auto DJ Clone: escolha o perfil de DJ, ajuste a energia da pista e ligue o modo autonomo do Mixxx.">
+  <title>Auto DJ Clone — Painel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: oklch(0.14 0.02 285);
+      --bg-2: oklch(0.18 0.03 285);
+      --card: oklch(0.21 0.035 285 / 0.72);
+      --stroke: oklch(0.45 0.05 285 / 0.35);
+      --text: oklch(0.96 0.01 285);
+      --muted: oklch(0.72 0.03 285);
+      --accent: oklch(0.72 0.22 320);
+      --accent-2: oklch(0.78 0.16 200);
+      --ok: oklch(0.8 0.2 150);
+      --warn: oklch(0.82 0.17 80);
+      --bad: oklch(0.68 0.23 25);
+      --r: 20px;
+      --ease: cubic-bezier(.2,.8,.2,1);
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; }
+    body {
+      min-height: 100dvh;
+      font-family: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 10% -10%, oklch(0.4 0.2 320 / .35), transparent 60%),
+        radial-gradient(800px 500px at 100% 0%, oklch(0.45 0.15 200 / .30), transparent 55%),
+        var(--bg);
+      padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    }
+    main { max-width: 640px; margin: 0 auto; display: grid; gap: 16px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    h1 { margin: 0; font-size: 20px; letter-spacing: .14em; font-weight: 700; text-transform: uppercase; }
+    h1 span { color: var(--accent); }
+    h2 { margin: 0 0 12px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 999px;
+      font-size: 12px; font-weight: 600; border: 1px solid var(--stroke); background: oklch(0.2 0.03 285 / .7);
+      transition: all .2s var(--ease);
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); box-shadow: 0 0 0 0 transparent; }
+    .badge.ok .dot { background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+    .badge.warn .dot { background: var(--warn); box-shadow: 0 0 10px var(--warn); }
+    .badge.bad .dot { background: var(--bad); box-shadow: 0 0 10px var(--bad); }
+    .card {
+      background: var(--card); border: 1px solid var(--stroke); border-radius: var(--r); padding: 16px;
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 8px 32px oklch(0 0 0 / .35);
+    }
+    /* botao autonomo */
+    #auto {
+      width: 100%; min-height: 96px; border-radius: 24px; border: 1px solid var(--stroke); cursor: pointer;
+      font: inherit; font-size: 22px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text);
+      background: linear-gradient(135deg, oklch(0.26 0.04 285), oklch(0.22 0.03 285));
+      display: grid; place-items: center; gap: 4px; padding: 16px;
+      transition: transform .15s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+    }
+    #auto small { font-size: 12px; font-weight: 500; letter-spacing: .04em; text-transform: none; color: var(--muted); }
+    #auto:active { transform: scale(.98); }
+    #auto.on {
+      background: linear-gradient(135deg, oklch(0.62 0.25 320), oklch(0.6 0.2 250));
+      box-shadow: 0 0 0 1px oklch(0.8 0.2 320 / .5), 0 12px 48px oklch(0.6 0.25 320 / .45);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    #auto.on small { color: oklch(0.97 0.02 320); }
+    @keyframes pulse { 50% { box-shadow: 0 0 0 1px oklch(0.8 0.2 320 / .7), 0 12px 64px oklch(0.6 0.25 320 / .7); } }
+    /* perfis */
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .prof {
+      min-height: 88px; text-align: left; padding: 12px 16px; border-radius: 16px; border: 1px solid var(--stroke); cursor: pointer;
+      font: inherit; color: var(--text); background: oklch(0.24 0.03 285 / .8);
+      transition: all .2s var(--ease); display: grid; align-content: space-between; gap: 4px;
+    }
+    .prof b { font-size: 16px; font-weight: 600; }
+    .prof span { font-size: 12px; color: var(--muted); font-family: "JetBrains Mono", monospace; }
+    .prof:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .prof.sel { border-color: var(--accent); background: linear-gradient(135deg, oklch(0.4 0.18 320 / .55), oklch(0.3 0.1 285 / .6)); box-shadow: 0 0 24px oklch(0.6 0.25 320 / .3); }
+    .prof:active { transform: scale(.98); }
+    /* energia */
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .big { font-size: 32px; font-weight: 700; font-family: "JetBrains Mono", monospace; }
+    input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 12px; border-radius: 999px; outline: none; margin: 16px 0 8px;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent), var(--bad)); }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 4px solid var(--bg); box-shadow: 0 0 16px oklch(1 0 0 / .5); cursor: pointer; }
+    input[type=range]::-moz-range-thumb { width: 28px; height: 28px; border-radius: 50%; background: #fff; border: 4px solid var(--bg); cursor: pointer; }
+    .presets { display: flex; gap: 8px; }
+    .btn {
+      flex: 1; min-height: 48px; border-radius: 14px; border: 1px solid var(--stroke); cursor: pointer; font: inherit; font-weight: 600; font-size: 14px;
+      color: var(--text); background: oklch(0.26 0.035 285 / .85); padding: 8px 12px;
+      transition: all .15s var(--ease);
+    }
+    .btn:hover { border-color: var(--accent-2); }
+    .btn:active { transform: scale(.97); }
+    .btn.primary { background: linear-gradient(135deg, oklch(0.55 0.2 200), oklch(0.5 0.2 260)); border-color: transparent; }
+    .btn[disabled] { opacity: .45; cursor: not-allowed; }
+    /* faixas */
+    .track { display: grid; gap: 4px; }
+    .track .name { font-size: 20px; font-weight: 600; overflow-wrap: anywhere; }
+    .meta { display: flex; gap: 8px; flex-wrap: wrap; font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--muted); }
+    .chip { padding: 2px 8px; border-radius: 8px; background: oklch(0.3 0.04 285 / .8); }
+    .bar { height: 8px; border-radius: 999px; background: oklch(0.3 0.03 285); overflow: hidden; margin-top: 12px; }
+    .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-2), var(--accent)); transition: width .3s linear; }
+    .decks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .deck { padding: 8px 12px; border-radius: 12px; background: oklch(0.2 0.03 285 / .8); border: 1px solid var(--stroke); font-size: 12px; color: var(--muted); font-family: "JetBrains Mono", monospace; }
+    .deck.live { border-color: var(--ok); color: var(--text); }
+    .plan { font-size: 14px; line-height: 1.5; color: var(--muted); }
+    .plan b { color: var(--text); }
+    .actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    /* log */
+    #log { max-height: 220px; overflow: auto; font-family: "JetBrains Mono", monospace; font-size: 12px; display: grid; gap: 4px; }
+    #log div { color: var(--muted); overflow-wrap: anywhere; }
+    #log .warning, #log .error { color: var(--warn); }
+    #log .error { color: var(--bad); }
+    #log time { color: var(--accent-2); margin-right: 8px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(80px); padding: 12px 20px; border-radius: 14px;
+      background: oklch(0.3 0.1 25); border: 1px solid var(--bad); opacity: 0; transition: all .25s var(--ease); font-weight: 600; max-width: 90vw; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .foot { text-align: center; font-size: 12px; color: var(--muted); }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Auto <span>DJ</span> Clone</h1>
+    <div class="badges">
+      <span class="badge" id="b-mixxx"><i class="dot"></i><em>Mixxx</em></span>
+      <span class="badge" id="b-ai"><i class="dot"></i><em>IA</em></span>
+    </div>
+  </header>
+
+  <button id="auto" type="button" aria-pressed="false">
+    <span id="auto-label">Modo autônomo desligado</span>
+    <small id="auto-sub">Toque para o cérebro assumir a mixagem</small>
+  </button>
+
+  <section class="card" aria-labelledby="h-prof">
+    <h2 id="h-prof">Perfil de DJ</h2>
+    <div class="grid" id="profiles"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-energy">
+    <h2 id="h-energy">Humor da pista · energia alvo</h2>
+    <div class="row"><span class="big" id="energy-val">60</span><span class="meta"><span class="chip" id="energy-name">groove</span></span></div>
+    <input id="energy" type="range" min="0" max="100" step="5" value="60" aria-label="Energia alvo da pista">
+    <div class="presets">
+      <button class="btn" data-e="30" type="button">Aquecer</button>
+      <button class="btn" data-e="60" type="button">Groove</button>
+      <button class="btn" data-e="85" type="button">Pico</button>
+      <button class="btn" data-e="100" type="button">Mosh Pit</button>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-now">
+    <h2 id="h-now">Tocando agora</h2>
+    <div class="track">
+      <div class="name" id="now-name">—</div>
+      <div class="meta" id="now-meta"></div>
+    </div>
+    <div class="bar"><i id="now-bar"></i></div>
+    <div class="decks" id="decks"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-next">
+    <h2 id="h-next">Próxima & plano de transição</h2>
+    <div class="track"><div class="name" id="next-name" style="font-size:16px">—</div><div class="meta" id="next-meta"></div></div>
+    <p class="plan" id="plan">Aguardando plano…</p>
+    <div class="actions">
+      <button class="btn primary" id="mix" type="button">Mixar agora</button>
+      <button class="btn" id="skip" type="button">Pular próxima</button>
+      <button class="btn" id="rand" type="button">+ Aleatória</button>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-fx">
+    <h2 id="h-fx">⚡ FX & Gracinhas de DJ (Ao Vivo)</h2>
+    <div class="actions" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 8px;">
+      <button class="btn" id="fx-kill-bass" type="button" title="Corta os graves por 2s e solta no drop">💣 Drop Bass (2s)</button>
+      <button class="btn" id="fx-stutter" type="button" title="Gaguejo rápido estilo killswitch do Tom Morello">🎛️ Killswitch Morello</button>
+    </div>
+    <div class="actions" style="grid-template-columns: repeat(2, 1fr);">
+      <button class="btn" id="fx-tape-stop" type="button" title="Freada de vinil rápida e puxa a próxima imediatamente">🛑 Tape Stop & Drop</button>
+      <button class="btn primary" id="fx-siren" type="button" title="Sirene clássica de festival / mosh pit">🚨 Sirene de Mosh</button>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-sys">
+    <h2 id="h-sys">Sistema</h2>
+    <div class="row" style="margin-bottom:12px">
+      <span class="plan" id="sys-text">—</span>
+      <div style="display:flex;gap:8px">
+        <button class="btn" id="dl" type="button">Downloads IA: <span>off</span></button>
+        <button class="btn" id="adj" type="button">Auto DJ do Mixxx</button>
+      </div>
+    </div>
+    <div id="log" aria-live="polite"></div>
+  </section>
+
+  <p class="foot">Clone de estilo inspirado em perfis públicos — ajuste profiles.json ao seu gosto.</p>
+</main>
+<div class="toast" id="toast" role="alert"></div>
+
+<script>
+(() => {
+  const qs = new URLSearchParams(location.search);
+  if (qs.get('t')) { localStorage.setItem('autodj_token', qs.get('t')); history.replaceState(null, '', location.pathname); }
+  const TOKEN = localStorage.getItem('autodj_token') || '';
+  const $ = (id) => document.getElementById(id);
+  let state = null, profilesBuilt = false, energyDragging = false;
+
+  async function api(path, body) {
+    const opt = { headers: { 'X-Token': TOKEN } };
+    if (body !== undefined) { opt.method = 'POST'; opt.headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(body); }
+    const r = await fetch(path, opt);
+    if (!r.ok) {
+      let msg = r.status === 401 ? 'Token inválido — abra o link com ?t=SEU_TOKEN' : `Erro ${r.status}`;
+      try { const j = await r.json(); if (j.detail && r.status !== 401) msg = typeof j.detail === 'string' ? j.detail : msg; } catch (_) {}
+      throw new Error(msg);
+    }
+    return r.json();
+  }
+  function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 3500); }
+  const act = (fn) => async () => { try { await fn(); await refresh(); } catch (e) { toast(e.message); } };
+  const fmt = (s) => { s = Math.max(0, Math.round(s)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+  const chip = (txt) => { const c = document.createElement('span'); c.className = 'chip'; c.textContent = txt; return c; };
+  const energyName = (v) => v < 40 ? 'aquecendo' : v < 75 ? 'groove' : v < 90 ? 'pico' : 'mosh pit 🔥';
+
+  function setBadge(id, cls, text) { const b = $(id); b.className = 'badge ' + cls; b.querySelector('em').textContent = text; }
+
+  function trackMeta(el, t, extra) {
+    el.replaceChildren();
+    if (t) {
+      if (t.bpm) el.append(chip(Math.round(t.bpm) + ' BPM'));
+      if (t.key) el.append(chip(t.key));
+      if (t.genre) el.append(chip(t.genre));
+    }
+    (extra || []).forEach((x) => el.append(chip(x)));
+  }
+
+  function render(s) {
+    state = s;
+    // badges
+    if (s.mode === 'sim') setBadge('b-mixxx', 'warn', 'Simulado');
+    else if (!s.connected) setBadge('b-mixxx', 'bad', 'MIDI offline');
+    else if (!s.fresh) setBadge('b-mixxx', 'warn', 'Sem dados');
+    else setBadge('b-mixxx', 'ok', 'Mixxx ligado');
+    const ai = s.ai || {};
+    setBadge('b-ai', ai.active ? 'ok' : 'warn', ai.active ? 'IA · ' + ai.backend : 'IA off');
+
+    // autonomo
+    const a = $('auto'); a.classList.toggle('on', s.autonomous); a.setAttribute('aria-pressed', s.autonomous);
+    $('auto-label').textContent = s.autonomous ? 'Modo autônomo ligado' : 'Modo autônomo desligado';
+    const phase = { offline: 'Mixxx offline', sem_dados: 'Aguardando o Mixxx…', manual: 'Cérebro em espera — Mixxx por conta própria', ligando_autodj: 'Ligando o Auto DJ…',
+      aguardando_faixa: 'Aguardando faixa…', tocando: 'Tocando · próxima transição planejada', transicao: 'Em transição (EQ ao vivo)' }[s.phase] || s.phase;
+    $('auto-sub').textContent = s.autonomous ? phase : 'Toque para o cérebro assumir a mixagem';
+
+    // perfis
+    if (!profilesBuilt && s.profiles) buildProfiles(s.profiles);
+    document.querySelectorAll('.prof').forEach((b) => b.classList.toggle('sel', b.dataset.id === s.profile.id));
+
+    // energia
+    if (!energyDragging) { $('energy').value = s.energy; }
+    $('energy-val').textContent = energyDragging ? $('energy').value : s.energy;
+    $('energy-name').textContent = energyName(energyDragging ? +$('energy').value : s.energy);
+
+    // faixa atual
+    const decks = s.mixxx.decks, live = decks.map((d, i) => (d.playing ? i : -1)).filter((i) => i >= 0);
+    const cur = live.length ? decks[live.length === 2 ? (decks[0].pos > decks[1].pos ? 0 : 1) : live[0]] : null;
+    $('now-name').textContent = s.current ? s.current.label : (cur ? `Deck ${decks.indexOf(cur) + 1} · faixa não identificada` : '—');
+    trackMeta($('now-meta'), s.current || (cur && { bpm: cur.bpm }), cur ? ['resta ' + fmt(cur.remaining)] : []);
+    $('now-bar').style.width = cur ? Math.round(cur.pos * 100) + '%' : '0%';
+    $('decks').replaceChildren(...decks.map((d, i) => {
+      const el = document.createElement('div'); el.className = 'deck' + (d.playing ? ' live' : '');
+      el.textContent = `DECK ${i + 1} · ${d.playing ? '▶ ' + fmt(d.remaining) : d.loaded ? 'pronto' : 'vazio'}`; return el;
+    }));
+
+    // proxima + plano
+    $('next-name').textContent = s.next ? s.next.label : (s.queue[0] ? s.queue[0].label : 'Fila vazia');
+    trackMeta($('next-meta'), s.next || s.queue[0], []);
+    const p = s.plan;
+    $('plan').replaceChildren();
+    if (p) {
+      const b = (t) => { const e = document.createElement('b'); e.textContent = t; return e; };
+      $('plan').append('Blend ', b(`${p.overlap_beats} beats (~${Math.round(p.overlap_s)}s)`), ' · EQ ', b(p.eq_style.replace('_', ' ')),
+        p.filter_sweep ? ' + filtro' : '', ` · decisão: ${p.source === 'ai' ? 'IA' : 'regras do perfil'}`);
+      if (p.note) { $('plan').append(document.createElement('br'), p.note); }
+    } else { $('plan').textContent = s.autonomous ? 'Planejando a próxima transição…' : 'Ligue o modo autônomo para o cérebro planejar.'; }
+
+    // sistema
+    const lib = s.library;
+    $('sys-text').textContent = `${s.mode === 'sim' ? 'Simulação' : 'Porta: ' + (s.port || '—')} · Biblioteca: ${lib.available ? (lib.tracks ?? '?') + ' faixas' : 'não encontrada'}`;
+    const dlBtn = $('dl'); dlBtn.classList.toggle('primary', s.allow_downloads); dlBtn.querySelector('span').textContent = s.allow_downloads ? 'on' : 'off';
+    const log = $('log'); log.replaceChildren(...s.events.slice().reverse().map((e) => {
+      const d = document.createElement('div'); d.className = e.level;
+      const t = document.createElement('time'); t.textContent = e.t; d.append(t, e.msg); return d;
+    }));
+  }
+
+  function buildProfiles(list) {
+    profilesBuilt = true;
+    $('profiles').replaceChildren(...list.map((p) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'prof'; b.dataset.id = p.id;
+      const n = document.createElement('b'); n.textContent = p.label;
+      const m = document.createElement('span'); m.textContent = `${p.bpm_range[0]}–${p.bpm_range[1]} BPM`;
+      b.append(n, m); b.title = p.description;
+      b.addEventListener('click', act(() => api('/api/profile', { id: p.id })));
+      return b;
+    }));
+  }
+
+  async function refresh() {
+    try {
+      const s = await api('/api/status');
+      if (!profilesBuilt) { const pr = await api('/api/profiles'); s.profiles = pr.profiles; }
+      else s.profiles = state && state.profiles;
+      render(s);
+    } catch (e) { setBadge('b-mixxx', 'bad', 'Servidor offline'); if (!/Erro|Token/.test(e.message) === false) toast(e.message); }
+  }
+
+  $('auto').addEventListener('click', act(() => api('/api/autonomous', { enabled: !(state && state.autonomous) })));
+  $('mix').addEventListener('click', act(() => api('/api/mix_now', {})));
+  $('skip').addEventListener('click', act(() => api('/api/skip_next', {})));
+  $('rand').addEventListener('click', act(() => api('/api/add_random', {})));
+  $('adj').addEventListener('click', act(() => api('/api/mixxx_autodj', { enabled: !(state && state.mixxx.autodj) })));
+  $('dl').addEventListener('click', act(() => api('/api/allow_downloads', { enabled: !(state && state.allow_downloads) })));
+  document.querySelectorAll('[data-e]').forEach((b) => b.addEventListener('click', act(() => api('/api/energy', { value: +b.dataset.e }))));
+  const en = $('energy');
+  en.addEventListener('input', () => { energyDragging = true; $('energy-val').textContent = en.value; $('energy-name').textContent = energyName(+en.value); });
+  en.addEventListener('change', act(async () => { await api('/api/energy', { value: +en.value }); energyDragging = false; }));
+
+  // FX & Gracinhas de DJ ao vivo
+  $('fx-kill-bass').addEventListener('click', act(async () => {
+    const res = await api('/api/trick', { trick: 'kill_bass' });
+    toast(res.msg);
+  }));
+  $('fx-stutter').addEventListener('click', act(async () => {
+    const res = await api('/api/trick', { trick: 'stutter' });
+    toast(res.msg);
+  }));
+  $('fx-tape-stop').addEventListener('click', act(async () => {
+    const res = await api('/api/trick', { trick: 'tape_stop' });
+    toast(res.msg);
+  }));
+  $('fx-siren').addEventListener('click', () => {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      const t = ctx.currentTime;
+      gain.gain.setValueAtTime(0.01, t);
+      gain.gain.exponentialRampToValueAtTime(0.3, t + 0.1);
+      osc.frequency.setValueAtTime(450, t);
+      osc.frequency.linearRampToValueAtTime(950, t + 0.4);
+      osc.frequency.linearRampToValueAtTime(450, t + 0.8);
+      osc.frequency.linearRampToValueAtTime(1100, t + 1.2);
+      osc.frequency.linearRampToValueAtTime(300, t + 1.8);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 2.0);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 2.0);
+      toast("🚨 Sirene de Mosh!");
+    } catch(e) {
+      toast("Sirene: " + e.message);
+    }
+  });
+
+  refresh(); setInterval(refresh, 1000);
+})();
+</script>
+</body>
+</html>

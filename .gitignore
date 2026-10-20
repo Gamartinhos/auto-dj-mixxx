@@ -1,0 +1,41 @@
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Local databases & logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Audio files (do not commit proprietary or heavy music files)
+*.mp3
+*.wav
+*.flac
+*.m4a
+*.aac
+*.ogg
+*.aiff
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
